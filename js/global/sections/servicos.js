@@ -5,7 +5,7 @@
 // dados de cada serviço — frente e verso do card
 const servicos = [
   {
-    icone: '❄️',
+    icone: '<i class="fa-solid fa-snowflake"></i>',
     tag: 'Residencial',
     nome: 'Instalação de Ar',
     desc: 'Instalação profissional de splits e sistemas centrais.',
@@ -18,7 +18,7 @@ const servicos = [
     ],
   },
   {
-    icone: '🔧',
+    icone: '<i class="fa-solid fa-wrench"></i>',
     tag: 'Preventiva',
     nome: 'Manutenção Preventiva',
     desc: 'Revisões periódicas para manter o sistema em perfeito estado.',
@@ -31,7 +31,7 @@ const servicos = [
     ],
   },
   {
-    icone: '⚡',
+    icone: '<i class="fa-solid fa-bolt"></i>',
     tag: 'Corretiva',
     nome: 'Manutenção Corretiva',
     desc: 'Diagnóstico e reparo rápido de falhas e defeitos.',
@@ -44,7 +44,7 @@ const servicos = [
     ],
   },
   {
-    icone: '🧊',
+    icone: '<i class="fa-solid fa-temperature-low"></i>',
     tag: 'Industrial',
     nome: 'Câmara Fria',
     desc: 'Projeto, instalação e manutenção de câmaras frigoríficas.',
@@ -57,7 +57,7 @@ const servicos = [
     ],
   },
   {
-    icone: '🏭',
+    icone: '<i class="fa-solid fa-industry"></i>',
     tag: 'Industrial',
     nome: 'Refrigeração Industrial',
     desc: 'Soluções de grande porte para indústrias e galpões.',
@@ -70,7 +70,7 @@ const servicos = [
     ],
   },
   {
-    icone: '🫧',
+    icone: '<i class="fa-solid fa-pump-soap"></i>',
     tag: 'Higienização',
     nome: 'Limpeza e Higienização',
     desc: 'Limpeza especializada com produtos certificados.',

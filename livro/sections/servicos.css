@@ -121,6 +121,11 @@
   filter: drop-shadow(0 0 8px rgba(0, 195, 255, 0.4));
 }
 
+.card-icone i {
+  color: #00c3ff;
+  font-size: 2.2rem;
+}
+
 /* nome do serviço */
 .card-nome {
   font-family: 'Orbitron', monospace;
