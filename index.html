@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RefrigeraSim</title>
+
+  <!-- Fontes -->
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/header/main.css">
+  <link rel="stylesheet" href="css/header/navbar.css">
+  <link rel="stylesheet" href="css/header/hero.css">
+  <link rel="stylesheet" href="css/global/sections.css">
+  <link rel="stylesheet" href="livro/sections/servicos.css">
+  <link rel="stylesheet" href="css/sections/sobre.css">
+
+</head>
+<body>
+
+<header>
+
+  <!-- canvas onde o Three.js renderiza -->
+  <canvas id="canvas-bg"></canvas>
+
+  <!-- overlay de névoa azul (puro CSS) -->
+  <div class="frost-overlay"></div>
+
+  <!-- navbar -->
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-icon">
+        <span class="logo-snowflake">❄</span>
+      </div>
+      <span class="logo-text">Refrigera<span>Sim</span></span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#">Soluções</a></li>
+      <li><a href="#">Projetos</a></li>
+      <li><a href="#">Contato</a></li>
+    </ul>
+
+    <button class="nav-cta">Solicitar Orçamento</button>
+  </nav>
+  <!-- /navbar -->
+
+  <!-- hero -->
+  <section class="hero">
+
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Tecnologia em Refrigeração Industrial
+    </div>
+
+    <h1 class="hero-title">
+      Eficiência<br>
+      que <span class="highlight" data-text="congela">congela</span><br>
+      padrões
+    </h1>
+
+    <p class="hero-sub">
+      Sistemas de refrigeração premium desenvolvidos para performar onde outros falham.
+      Precisão, durabilidade e inovação em cada projeto.
+    </p>
+
+    <div class="hero-actions">
+      <button class="btn-primary">Conheça Nossas Soluções</button>
+      <button class="btn-ghost">
+        <span class="play-icon">▶</span>
+        Ver em Ação
+      </button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-number">1.200+</span>
+        <span class="stat-label">Projetos entregues</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">98%</span>
+        <span class="stat-label">Satisfação dos clientes</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">15+</span>
+        <span class="stat-label">Anos de experiência</span>
+      </div>
+    </div>
+
+  </section>
+  <!-- /hero -->
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+
+</header>
+
+
+<!-- ─── seção: serviços ─────────────────────────────────────── -->
+<div class="section-wrap">
+  <section id="servicos" class="section-base">
+    <div class="section-accent-top"></div>
+    <div id="servicos-flocos" style="position:absolute;inset:0;pointer-events:none;"></div>
+    <div class="servicos-header">
+      <span class="servicos-label">O que fazemos</span>
+      <h2 class="servicos-titulo">Nossos <span>Serviços</span></h2>
+    </div>
+    <div class="servicos-grid"></div>
+  </section>
+</div>
+
+<!-- ─── seção: sobre ────────────────────────────────────────── -->
+<div class="section-wrap">
+  <section id="sobre">
+    <div class="sobre-shadow-top"></div>
+    <div class="sobre-divider-top"></div>
+    <canvas id="sobre-canvas"></canvas>
+    <span class="sobre-wire-label tl">L1 · Fase R · 220V</span>
+    <span class="sobre-wire-label tr">L2 · Fase S · 220V</span>
+    <span class="sobre-wire-label bl">GND · Terra · 6mm²</span>
+    <span class="sobre-wire-label br">N · Neutro · 4mm²</span>
+    <div class="sobre-content">
+      <span class="sobre-label">Quem somos</span>
+      <h2 class="sobre-titulo">
+        Conectados<br>à <span class="destaque">excelência</span>
+      </h2>
+      <p class="sobre-frase">
+        Cada fio instalado carrega 15 anos de precisão técnica,
+        comprometimento e inovação em refrigeração industrial.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- ── scripts ─────────────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/header/intro.js"></script>
+<script src="js/header/particulas.js"></script>
+<script src="js/header/cristais.js"></script>
+<script src="js/header/hero-background.js"></script>
+<script src="js/global/flocos-decorativos.js"></script>
+<script src="js/global/sections/servicos.js"></script>
+<script src="js/global/sections/sobre/fios.js"></script>
+<script src="js/global/sections/sobre/sobre.js"></script>
+
+</body>
+</html>

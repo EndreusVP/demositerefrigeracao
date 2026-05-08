@@ -1,0 +1,227 @@
+/* css/sections/sobre.css */
+/* seção sobre — fundo claro industrial, fios 3D centrais */
+
+#sobre {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #f0f4f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  /* transição suave para o tema escuro */
+  transition:
+    background 0.9s ease,
+    color 0.9s ease;
+}
+
+/* textura de papel técnico — linhas de grid sutis */
+#sobre::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 100, 200, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 100, 200, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.9s ease;
+}
+
+/* vinheta nas bordas para profundidade */
+#sobre::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(180, 200, 220, 0.35) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.9s ease;
+}
+
+/* ── TEMA ESCURO — ativado ao cortar qualquer fio ──────────────────────────── */
+#sobre.tema-escuro {
+  background: #060e1a;
+}
+
+/* grid some no escuro */
+#sobre.tema-escuro::before {
+  opacity: 0;
+}
+
+/* vinheta escura */
+#sobre.tema-escuro::after {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    rgba(0, 5, 20, 0.7) 100%
+  );
+}
+
+/* título fica claro */
+#sobre.tema-escuro .sobre-titulo {
+  color: #e8f0ff;
+  transition: color 0.9s ease;
+}
+
+/* destaque vira ciano elétrico */
+#sobre.tema-escuro .sobre-titulo .destaque {
+  background: linear-gradient(135deg, #00c3ff, #0055ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* label superior fica mais viva */
+#sobre.tema-escuro .sobre-label {
+  color: rgba(0, 180, 255, 0.7);
+  transition: color 0.9s ease;
+}
+
+/* frase fica visível no escuro */
+#sobre.tema-escuro .sobre-frase {
+  color: rgba(180, 210, 255, 0.5);
+  transition: color 0.9s ease;
+}
+
+/* etiquetas técnicas nos cantos */
+#sobre.tema-escuro .sobre-wire-label {
+  color: rgba(0, 180, 255, 0.2);
+  transition: color 0.9s ease;
+}
+
+/* divisor do topo fica ciano */
+#sobre.tema-escuro .sobre-divider-top {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 195, 255, 0.2) 20%,
+    rgba(0, 195, 255, 0.5) 50%,
+    rgba(0, 195, 255, 0.2) 80%,
+    transparent
+  );
+  transition: background 0.9s ease;
+}
+
+/* canvas dos fios recebe pointer-events para o corte funcionar */
+#sobre-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: all;   /* era none — agora captura cliques para corte */
+  cursor: crosshair;
+}
+
+/* conteúdo de texto — sobrepõe o canvas */
+.sobre-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  padding: 4rem 2rem;
+}
+
+/* label superior */
+.sobre-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(0, 100, 200, 0.55);
+  margin-bottom: 1.4rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  transition: color 0.9s ease;
+}
+
+/* título principal */
+.sobre-titulo {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: #0a1628;
+  margin-bottom: 1.6rem;
+  transition: color 0.9s ease;
+}
+
+/* palavra de destaque em azul */
+.sobre-titulo .destaque {
+  color: transparent;
+  background: linear-gradient(135deg, #0055cc, #0099dd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: background 0.9s ease;
+}
+
+/* frase única */
+.sobre-frase {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-weight: 400;
+  color: rgba(10, 22, 40, 0.45);
+  max-width: 480px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  transition: color 0.9s ease;
+}
+
+/* etiquetas técnicas dos fios — cantos da seção */
+.sobre-wire-label {
+  position: absolute;
+  z-index: 3;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(10, 22, 40, 0.25);
+  pointer-events: none;
+  transition: color 0.9s ease;
+}
+
+.sobre-wire-label.tl { top: 2.5rem;    left: 3rem;  }
+.sobre-wire-label.tr { top: 2.5rem;    right: 3rem; text-align: right; }
+.sobre-wire-label.bl { bottom: 2.5rem; left: 3rem;  }
+.sobre-wire-label.br { bottom: 2.5rem; right: 3rem; text-align: right; }
+
+/* linha divisória técnica no topo */
+.sobre-divider-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 120, 220, 0.2) 20%,
+    rgba(0, 120, 220, 0.5) 50%,
+    rgba(0, 120, 220, 0.2) 80%,
+    transparent
+  );
+  z-index: 4;
+  transition: background 0.9s ease;
+}
+
+/* sombra de sobreposição no topo */
+.section-wrap .sobre-shadow-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent);
+  z-index: 5;
+  pointer-events: none;
+}

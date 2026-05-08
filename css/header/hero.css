@@ -1,0 +1,185 @@
+/* css/hero.css */
+
+/* container hero */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+/* badge de destaque */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 195, 255, 0.06);
+  border: 1px solid rgba(0, 195, 255, 0.2);
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  margin-bottom: 2.2rem;
+  color: rgba(0, 195, 255, 0.8);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  animation: fadeUp 0.8s ease both;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00c3ff;
+  animation: pulse 2s ease infinite;
+}
+
+/* título principal */
+.hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.9s ease 0.1s both;
+}
+
+/* palavra "congela" em gradiente */
+.hero-title .highlight {
+  color: transparent;
+  background: linear-gradient(90deg, #00c3ff, #0077ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  position: relative;
+}
+
+/* glow/blur atrás do highlight */
+.hero-title .highlight::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: transparent;
+  background: linear-gradient(90deg, #00c3ff, #0077ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: blur(20px);
+  opacity: 0.5;
+}
+
+/* subtítulo */
+.hero-sub {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.45);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  letter-spacing: 0.02em;
+  animation: fadeUp 1s ease 0.2s both;
+}
+
+/* botões */
+.hero-actions {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  animation: fadeUp 1s ease 0.35s both;
+}
+
+.btn-primary {
+  padding: 0.85rem 2.2rem;
+  background: linear-gradient(135deg, #0077ff, #00c3ff);
+  border: none;
+  color: #fff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 24px rgba(0, 119, 255, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 195, 255, 0.4);
+}
+
+.btn-ghost {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.85rem 1.8rem;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.65);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+  border-color: rgba(255,255,255,0.35);
+  color: #fff;
+}
+
+.play-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+
+/* stats */
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  margin-top: 4.5rem;
+  animation: fadeUp 1s ease 0.5s both;
+}
+
+.stat {
+  text-align: center;
+  border-left: 1px solid rgba(0, 195, 255, 0.15);
+  padding-left: 2rem;
+}
+
+.stat:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.stat-number {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #fff;
+  display: block;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}

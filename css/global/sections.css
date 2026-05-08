@@ -1,0 +1,54 @@
+/* css/global/sections.css */
+/* sobreposição entre seções — efeito de livro empilhado */
+
+/* cada seção empilha sobre a anterior via sticky + z-index escalonado */
+.section-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* sombra no topo de cada seção para dar profundidade de empilhamento */
+.section-wrap::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* seção base — todas herdam isso */
+.section-base {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #020b18;
+}
+
+/* z-index escalonado — cada seção fica acima da anterior */
+.section-wrap:nth-child(1) { z-index: 1; }
+.section-wrap:nth-child(2) { z-index: 2; }
+.section-wrap:nth-child(3) { z-index: 3; }
+.section-wrap:nth-child(4) { z-index: 4; }
+.section-wrap:nth-child(5) { z-index: 5; }
+.section-wrap:nth-child(6) { z-index: 6; }
+.section-wrap:nth-child(7) { z-index: 7; }
+.section-wrap:nth-child(8) { z-index: 8; }
+
+/* borda de topo com brilho azul — costura visual entre seções */
+.section-accent-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 195, 255, 0.3) 20%,
+    rgba(0, 195, 255, 0.6) 50%,
+    rgba(0, 195, 255, 0.3) 80%,
+    transparent
+  );
+  z-index: 3;
+}

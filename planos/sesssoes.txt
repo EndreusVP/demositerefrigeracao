@@ -1,0 +1,8 @@
+1. Hero          ← já feito — impacto imediato
+2. Serviços      ← o que fazemos
+3. Sobre         ← quem somos
+4. Números       ← prova de credibilidade
+5. Trabalhos     ← galeria de projetos realizados
+6. Depoimentos   ← clientes validando a empresa
+7. Incentivo     ← CTA forte antes do contato
+8. Contato       ← formulário / WhatsApp / endereço
