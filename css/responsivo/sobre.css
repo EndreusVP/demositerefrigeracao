@@ -1,0 +1,73 @@
+/* ─────────────────────────────────────────────────────────
+   TABLET  (768px ~ 1023px)
+───────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+
+  /* etiquetas técnicas dos fios — reposiciona */
+  .sobre-wire-label.tl { top: 1.5rem; left: 1.5rem; }
+  .sobre-wire-label.tr { top: 1.5rem; right: 1.5rem; }
+  .sobre-wire-label.bl { bottom: 1.5rem; left: 1.5rem; }
+  .sobre-wire-label.br { bottom: 1.5rem; right: 1.5rem; }
+
+  /* título — ajuste de tamanho */
+  .sobre-titulo {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+  }
+
+  /* frase — levemente menor */
+  .sobre-frase {
+    font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+  }
+
+  /* canvas dos fios — em tablet não é interativo */
+  /* pointer-events desativado via touch.js */
+  #sobre-canvas {
+    opacity: 0.6; /* fios mais sutis em tablet */
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   MOBILE  (até 767px)
+───────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* conteúdo — menos padding */
+  .sobre-content {
+    padding: 3rem 1.5rem;
+  }
+
+  /* título — ajuste mobile */
+  .sobre-titulo {
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+    margin-bottom: 1.2rem;
+  }
+
+  /* frase — fonte menor e max-width 100% */
+  .sobre-frase {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+
+  /* etiquetas técnicas — fonte menor */
+  .sobre-wire-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+  }
+
+  .sobre-wire-label.tl { top: 1rem; left: 1rem; }
+  .sobre-wire-label.tr { top: 1rem; right: 1rem; }
+  .sobre-wire-label.bl { bottom: 1rem; left: 1rem; }
+  .sobre-wire-label.br { bottom: 1rem; right: 1rem; }
+
+  /* canvas dos fios — apenas decorativo no mobile, sem interação */
+  #sobre-canvas {
+    opacity: 0.35;  /* bem sutil — só visual */
+    pointer-events: none !important; /* garante no CSS também */
+  }
+
+  /* label superior — esconde no mobile pequeno */
+  .sobre-label {
+    font-size: 0.65rem;
+  }
+}

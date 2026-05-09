@@ -1,0 +1,14 @@
+:root {
+  --bp-mobile:  767px;
+  --bp-tablet:  1023px;
+  --bp-desktop: 1024px;
+
+  /* espaçamentos responsivos */
+  --padding-section-desktop: 6rem 3rem;
+  --padding-section-tablet:  4rem 2rem;
+  --padding-section-mobile:  3rem 1.2rem;
+
+  /* tamanhos de fonte base responsivos */
+  --font-label-desktop: 0.75rem;
+  --font-label-mobile:  0.7rem;
+}

@@ -1,0 +1,75 @@
+/* ─────────────────────────────────────────────────────────
+   TABLET  (768px ~ 1023px)
+───────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+
+  /* seção — reduz padding */
+  #servicos {
+    padding: 4rem 2rem;
+  }
+
+  /* grid — 2 colunas no tablet */
+  .servicos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* título da seção — menor */
+  .servicos-titulo {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   MOBILE  (até 767px)
+───────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* seção — padding mínimo */
+  #servicos {
+    padding: 3rem 1.2rem;
+  }
+
+  /* cabeçalho — menos margem */
+  .servicos-header {
+    margin-bottom: 2.5rem;
+  }
+
+  /* grid — 1 coluna no mobile */
+  .servicos-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  /* card — altura menor no mobile */
+  .card-wrap {
+    height: 260px;
+  }
+
+  /* no mobile não há hover — ativa flip por toque via JS (touch.js) */
+  /* aqui apenas ajuste de fonte dos cards */
+  .card-nome {
+    font-size: 0.95rem;
+  }
+
+  .card-desc {
+    font-size: 0.8rem;
+  }
+
+  .verso-titulo {
+    font-size: 0.85rem;
+  }
+
+  .verso-lista li {
+    font-size: 0.78rem;
+  }
+
+  /* flocos decorativos — menos flocos no mobile (controlado via JS) */
+  /* o canvas continua existindo mas com menos elementos */
+}
+
+/* flip por toque — ativado via touch.js em dispositivos touch */
+.card-wrap.flipped .card-inner {
+  transform: rotateY(-180deg);
+}

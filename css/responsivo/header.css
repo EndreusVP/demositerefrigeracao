@@ -1,0 +1,118 @@
+/* ─────────────────────────────────────────────────────────
+   TABLET  (768px ~ 1023px)
+───────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+
+  /* navbar — comprime espaçamentos */
+  nav {
+    padding: 1.2rem 2rem;
+    gap: 1rem;
+  }
+
+  /* links — esconde no tablet, substituir por menu hamburger futuramente */
+  .nav-links {
+    display: none;
+  }
+
+  /* logo — levemente menor */
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  /* hero — reduz padding */
+  .hero {
+    padding: 3rem 2rem;
+  }
+
+  /* stats — reduz gap */
+  .hero-stats {
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .stat-number {
+    font-size: 1.4rem;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   MOBILE  (até 767px)
+───────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* navbar — compacta ao máximo */
+  nav {
+    padding: 1rem 1.2rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-cta {
+    font-size: 0.75rem;
+    padding: 0.45rem 1rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* hero — empilha tudo centralizado */
+  .hero {
+    padding: 2.5rem 1.2rem;
+    text-align: center;
+  }
+
+  /* título — clamp já cuida do tamanho, ajusta line-height */
+  .hero-title {
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+  }
+
+  /* subtítulo — fonte menor */
+  .hero-sub {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  /* botões — empilham verticalmente */
+  .hero-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-ghost {
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem 1.5rem;
+  }
+
+  /* stats — empilham em coluna */
+  .hero-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    align-items: center;
+  }
+
+  /* remove borda lateral dos stats empilhados */
+  .stat {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid rgba(0, 195, 255, 0.15);
+    padding-top: 1.2rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .stat:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  /* scroll indicator — some no mobile */
+  .scroll-indicator {
+    display: none;
+  }
+}
