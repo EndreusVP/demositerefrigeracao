@@ -1,0 +1,67 @@
+/* css/responsivo/numeros.css */
+
+/* ─── TABLET (768px ~ 1023px) ───────────────────────────────────────────── */
+@media (max-width: 1023px) {
+
+  #numeros {
+    flex-direction: column;
+    padding: 5rem 2rem;
+    gap: 3rem;
+  }
+
+  .numeros-esquerda {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .numeros-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #freezer-canvas {
+    width: 320px;
+    height: 360px;
+  }
+}
+
+/* ─── MOBILE (até 767px) ────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  #numeros {
+    padding: 4rem 1.2rem;
+    gap: 2.5rem;
+  }
+
+  .numeros-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .numero-item {
+    padding: 1rem;
+  }
+
+  .digito {
+    font-size: 1.2rem;
+    width: 17px;
+    height: 30px;
+  }
+
+  .digito-col {
+    width: 17px;
+    height: 30px;
+  }
+
+  .odometro-wrap {
+    height: 30px;
+  }
+
+  .digito-fixo {
+    font-size: 0.85rem;
+  }
+
+  #freezer-canvas {
+    width: 280px;
+    height: 320px;
+  }
+}

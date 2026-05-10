@@ -1,0 +1,288 @@
+/* css/sections/numeros.css */
+/* seção de números — expositor 3D + painel de odômetros */
+
+#numeros {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  padding: 6rem 4rem;
+  overflow: hidden;
+  background: linear-gradient(
+    to bottom,
+    #020b18 0%,
+    #041428 40%,
+    #061d3a 70%,
+    #071f42 100%
+  );
+}
+
+/* grade técnica de fundo */
+#numeros::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(to bottom, transparent, transparent 59px, rgba(0,120,200,0.03) 60px),
+    repeating-linear-gradient(to right,  transparent, transparent 59px, rgba(0,120,200,0.03) 60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#numeros::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 65% 50%, rgba(0,80,180,0.10) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── coluna esquerda ──────────────────────────────────────────────────────── */
+.numeros-esquerda {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 460px;
+  flex-shrink: 0;
+}
+
+.numeros-label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(0, 195, 255, 0.6);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.numeros-titulo {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.numeros-titulo span {
+  color: transparent;
+  background: linear-gradient(90deg, #00c3ff, #0077ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.numeros-subtexto {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.7;
+}
+
+/* ── grid 2×2 dos odômetros ───────────────────────────────────────────────── */
+.numeros-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.numero-item {
+  background: linear-gradient(145deg, #04101f, #071828);
+  border: 1px solid rgba(0, 195, 255, 0.13);
+  border-radius: 10px;
+  padding: 1.2rem 1.3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(0, 195, 255, 0.06);
+  transition: border-color 0.3s;
+}
+
+.numero-item:hover {
+  border-color: rgba(0, 195, 255, 0.28);
+}
+
+.numero-topo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.numero-icone {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(0, 195, 255, 0.07);
+  border: 1px solid rgba(0, 195, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00c3ff;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+
+/* ── odômetro ─────────────────────────────────────────────────────────────── */
+.odometro-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  overflow: hidden;
+  position: relative;
+  height: 36px;
+}
+
+.odometro-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(4, 16, 31, 0.88) 0%,
+    transparent 28%,
+    transparent 72%,
+    rgba(4, 16, 31, 0.88) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.digito-col {
+  width: 20px;
+  height: 36px;
+  overflow: hidden;
+}
+
+.digito-faixa {
+  display: flex;
+  flex-direction: column;
+  transition: transform 1.4s cubic-bezier(0.22, 0.68, 0.32, 1.0);
+  will-change: transform;
+}
+
+.digito {
+  width: 20px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.digito-fixo {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #00c3ff;
+  position: relative;
+  z-index: 3;
+  padding-bottom: 3px;
+  align-self: flex-end;
+}
+
+.numero-nome {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.numero-desc {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.80rem;
+  color: rgba(255, 255, 255, 0.28);
+  line-height: 1.4;
+}
+
+/* ── coluna direita: canvas do expositor ──────────────────────────────────── */
+.numeros-direita {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+#expositor-canvas {
+  width: 380px;
+  height: 500px;
+  display: block;
+  filter: drop-shadow(0 24px 64px rgba(0, 60, 180, 0.35));
+}
+
+/* ── responsivo ──────────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  #numeros {
+    flex-direction: column;
+    padding: 5rem 2rem;
+    gap: 3rem;
+  }
+
+  .numeros-esquerda {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .numeros-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #expositor-canvas {
+    width: 300px;
+    height: 390px;
+  }
+}
+
+@media (max-width: 767px) {
+  #numeros {
+    padding: 4rem 1.2rem;
+    gap: 2.5rem;
+  }
+
+  .numeros-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .numero-item {
+    padding: 1rem;
+  }
+
+  .digito {
+    font-size: 1.1rem;
+    width: 16px;
+    height: 30px;
+  }
+
+  .digito-col {
+    width: 16px;
+    height: 30px;
+  }
+
+  .odometro-wrap {
+    height: 30px;
+  }
+
+  .digito-fixo {
+    font-size: 0.82rem;
+  }
+
+  #expositor-canvas {
+    width: 260px;
+    height: 340px;
+  }
+}
