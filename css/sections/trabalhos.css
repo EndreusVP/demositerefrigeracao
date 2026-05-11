@@ -1,0 +1,403 @@
+/* css/sections/trabalhos.css */
+/* Seção Trabalhos — carrossel de cubos 3D com painel de detalhe */
+
+/* ── keyframes ────────────────────────────────────────────────────────────── */
+@keyframes trab-fade-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes trab-hint-pulse {
+    0%, 100% { opacity: 0.5; }
+    50%       { opacity: 1; }
+  }
+  
+  @keyframes trab-slide-in {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+  
+  /* ── seção ────────────────────────────────────────────────────────────────── */
+  #trabalhos {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 3rem 4rem;
+    overflow: hidden;
+    background: #020b18; /* mesmo fundo da seção serviços */
+  }
+  
+  /* grade técnica de fundo */
+  #trabalhos::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(to bottom, transparent, transparent 59px, rgba(0,120,200,0.03) 60px),
+      repeating-linear-gradient(to right,  transparent, transparent 59px, rgba(0,120,200,0.03) 60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  /* ── cabeçalho ────────────────────────────────────────────────────────────── */
+  .trab-header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-bottom: 3rem;
+  
+    /* animação de entrada — começa invisível */
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  
+  /* quando a seção se torna visível (classe adicionada pelo IntersectionObserver) */
+  #trabalhos.trab--visivel .trab-header {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .trab-label {
+    display: inline-block;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgba(0, 195, 255, 0.6);
+    margin-bottom: 0.5rem;
+  }
+  
+  .trab-titulo {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+  }
+  
+  .trab-titulo span {
+    color: transparent;
+    background: linear-gradient(90deg, #00c3ff, #0077ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  
+  .trab-sub {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.35);
+    line-height: 1.6;
+  }
+  
+  /* ── stage do carrossel ───────────────────────────────────────────────────── */
+  .trab-stage {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+    height: 420px;
+  
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease 0.25s, transform 0.8s ease 0.25s;
+  }
+  
+  #trabalhos.trab--visivel .trab-stage {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  #trab-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  
+  /* ── setas de navegação ───────────────────────────────────────────────────── */
+  .trab-seta {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 44px;
+    height: 44px;
+    background: rgba(2, 11, 24, 0.7);
+    border: 1px solid rgba(0, 195, 255, 0.25);
+    border-radius: 50%;
+    color: rgba(0, 195, 255, 0.8);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(8px);
+  }
+  
+  .trab-seta:hover {
+    background: rgba(0, 195, 255, 0.12);
+    border-color: rgba(0, 195, 255, 0.6);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(0, 195, 255, 0.2);
+  }
+  
+  .trab-seta--esq { left: 0.5rem; }
+  .trab-seta--dir { right: 0.5rem; }
+  
+  /* ── dots indicadores ─────────────────────────────────────────────────────── */
+  .trab-dots {
+    position: absolute;
+    bottom: 0.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 5;
+  }
+  
+  .trab-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+  
+  .trab-dot--ativo {
+    background: #00c3ff;
+    width: 18px;
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(0, 195, 255, 0.5);
+  }
+  
+  /* ── hint de interação ────────────────────────────────────────────────────── */
+  .trab-hint {
+    position: absolute;
+    bottom: 2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0, 195, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    animation: trab-hint-pulse 2.5s ease infinite;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  
+  /* ── info bar ─────────────────────────────────────────────────────────────── */
+  .trab-info-bar {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-top: 1.8rem;
+  
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease 0.45s, transform 0.7s ease 0.45s;
+  }
+  
+  #trabalhos.trab--visivel .trab-info-bar {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .trab-info-nome {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    transition: opacity 0.2s ease;
+    margin-bottom: 0.3rem;
+  }
+  
+  .trab-info-cat {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0, 195, 255, 0.55);
+    transition: opacity 0.2s ease;
+  }
+  
+  /* ── overlay escuro ───────────────────────────────────────────────────────── */
+  .trab-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 98;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    backdrop-filter: blur(3px);
+  }
+  
+  .trab-overlay--visivel {
+    opacity: 1;
+    pointer-events: all;
+  }
+  
+  /* ── painel lateral de detalhe ────────────────────────────────────────────── */
+  .trab-painel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    max-width: 95vw;
+    height: 100vh;
+    background: linear-gradient(160deg, #071828 0%, #030f1e 100%);
+    border-left: 1px solid rgba(0, 195, 255, 0.15);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 2.5rem;
+    overflow-y: auto;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.4s ease;
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+  }
+  
+  .trab-painel--aberto {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  
+  /* botão fechar */
+  .trab-painel-fechar {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+  }
+  
+  .trab-painel-fechar:hover {
+    background: rgba(255, 50, 50, 0.12);
+    border-color: rgba(255, 50, 50, 0.4);
+    color: #fff;
+  }
+  
+  /* acento colorido no topo do painel */
+  .trab-painel-acento {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    opacity: 0.7;
+  }
+  
+  /* conteúdo do painel */
+  .trab-painel-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    margin-top: 1rem;
+  }
+  
+  .trab-painel-categoria {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .trab-painel-nome {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+  }
+  
+  .trab-painel-desc {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.7;
+  }
+  
+  /* dados técnicos */
+  .trab-painel-dados {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  
+  .trab-dado {
+    background: rgba(0, 195, 255, 0.04);
+    border: 1px solid rgba(0, 195, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .trab-dado-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+  }
+  
+  .trab-dado-valor {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  
+  /* botão ver projeto */
+  .trab-painel-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.8rem 1.6rem;
+    background: transparent;
+    border: 1px solid;
+    border-radius: 6px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+    margin-top: 0.5rem;
+  }
+  
+  .trab-painel-btn:hover {
+    background: rgba(0, 195, 255, 0.08);
+    box-shadow: 0 0 20px rgba(0, 195, 255, 0.15);
+    transform: translateX(4px);
+  }

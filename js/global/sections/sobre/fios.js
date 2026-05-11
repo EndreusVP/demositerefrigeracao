@@ -377,5 +377,53 @@ const FiosSobre = (() => {
     renderer.dispose();
   }
 
-  return { init, destroy };
+  // ── initSomenteLeitura ─────────────────────────────────────────────────────
+  // versão dos fios para touch devices — apenas visual, sem interação
+  // não registra nenhum listener de mouse, touch ou clique
+  function initSomenteLeitura(el) {
+    canvasEl = el;
+    const pai = el.parentElement;
+    const w   = pai.clientWidth  || window.innerWidth;
+    const h   = pai.clientHeight || window.innerHeight;
+
+    renderer = new THREE.WebGLRenderer({ canvas: el, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(w, h);
+
+    scene  = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 200);
+    camera.position.set(0, 0, 16);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1.4));
+    const luz1 = new THREE.PointLight(0xffffff, 2.2, 80);
+    luz1.position.set(6, 8, 14);
+    scene.add(luz1);
+    const luz2 = new THREE.PointLight(0xbbddff, 1.2, 60);
+    luz2.position.set(-8, -6, 10);
+    scene.add(luz2);
+
+    // cria fios normalmente — sem _bindEventos
+    _criarFios();
+
+    new ResizeObserver(() => {
+      const nw = pai.clientWidth  || window.innerWidth;
+      const nh = pai.clientHeight || window.innerHeight;
+      renderer.setSize(nw, nh);
+      camera.aspect = nw / nh;
+      camera.updateProjectionMatrix();
+    }).observe(pai);
+
+    // loop apenas visual — mouse3D fixo em 0,0,0, sem repulsão
+    function _loopLeitura() {
+      animId = requestAnimationFrame(_loopLeitura);
+      tempo += 0.016;
+      _animar();
+      renderer.render(scene, camera);
+    }
+
+    _loopLeitura();
+  }
+
+  return { init, destroy, initSomenteLeitura };
 })();

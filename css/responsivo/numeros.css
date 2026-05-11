@@ -1,67 +1,99 @@
 /* css/responsivo/numeros.css */
+/* responsividade da seção de números */
+/* depende de: css/sections/numeros.css */
+/* classes baseadas na estrutura real gerada por numeros.js */
 
 /* ─── TABLET (768px ~ 1023px) ───────────────────────────────────────────── */
 @media (max-width: 1023px) {
 
+  /* seção — empilha coluna de texto acima da geladeira */
   #numeros {
     flex-direction: column;
     padding: 5rem 2rem;
-    gap: 3rem;
+    gap: 3.5rem;
   }
 
-  .numeros-esquerda {
+  /* coluna de texto — ocupa largura total e centraliza */
+  .num-copy {
     max-width: 100%;
     width: 100%;
+    align-items: center;
+    text-align: center;
   }
 
-  .numeros-grid {
-    grid-template-columns: repeat(2, 1fr);
+  /* hint — centraliza */
+  .num-hint {
+    align-self: center;
   }
 
-  #freezer-canvas {
-    width: 320px;
-    height: 360px;
+  /* geladeira — levemente menor no tablet */
+  .num-fridge {
+    width: 200px;
+    height: 400px;
   }
 }
 
 /* ─── MOBILE (até 767px) ────────────────────────────────────────────────── */
 @media (max-width: 767px) {
 
+  /* seção — padding mínimo */
   #numeros {
     padding: 4rem 1.2rem;
     gap: 2.5rem;
   }
 
-  .numeros-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
+  /* título — fonte menor */
+  .numeros-titulo {
+    font-size: clamp(1.4rem, 6vw, 2rem);
   }
 
-  .numero-item {
-    padding: 1rem;
+  /* geladeira — compacta no mobile */
+  .num-fridge {
+    width: 175px;
+    height: 350px;
   }
 
-  .digito {
-    font-size: 1.2rem;
-    width: 17px;
-    height: 30px;
+  /* puxador da porta — proporcional */
+  .num-door-handle {
+    height: 70px;
+    right: 10px;
   }
 
-  .digito-col {
-    width: 17px;
-    height: 30px;
+  /* odômetros — dígitos menores */
+  .num-odo-col {
+    width: 13px;
+    height: 18px;
   }
 
-  .odometro-wrap {
-    height: 30px;
+  .num-odo-dig {
+    width: 13px;
+    height: 18px;
+    font-size: 0.72rem;
   }
 
-  .digito-fixo {
-    font-size: 0.85rem;
+  /* sufixo do odômetro */
+  .num-odo-suf {
+    font-size: 0.62rem;
   }
 
-  #freezer-canvas {
-    width: 280px;
-    height: 320px;
+  /* label da prateleira */
+  .num-shelf-lbl {
+    font-size: 0.5rem;
+  }
+
+  /* odômetro — desativa transição no mobile para performance */
+  .num-odo-strip {
+    transition: none;
+  }
+
+  /* hint — fonte menor */
+  .num-hint {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.8rem;
+  }
+
+  /* subtítulo — fonte menor */
+  .num-sub {
+    font-size: 0.88rem;
   }
 }

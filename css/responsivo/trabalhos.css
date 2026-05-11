@@ -1,0 +1,59 @@
+/* css/responsivo/trabalhos.css */
+/* Responsivo da seção Trabalhos — estante isométrica */
+
+/* ── TABLET (768px ~ 1023px) ──────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+
+    #trabalhos {
+      padding: 5rem 2rem 3.5rem;
+    }
+  
+    .trab-stage {
+      height: 440px;   /* era 360px */
+      max-width: 100%;
+    }
+  
+    .trab-painel {
+      width: 360px;
+    }
+  
+    .trab-painel-dados {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  /* ── MOBILE (até 767px) ───────────────────────────────────────────────────── */
+  @media (max-width: 767px) {
+  
+    #trabalhos {
+      padding: 4rem 1.2rem 3rem;
+    }
+  
+    .trab-stage {
+      height: 360px;   /* era 300px */
+    }
+  
+    .trab-hint {
+      font-size: 0.6rem;
+    }
+  
+    /* painel ocupa tela inteira no mobile */
+    .trab-painel {
+      width: 100%;
+      max-width: 100%;
+      padding: 2.5rem 1.5rem;
+    }
+  
+    .trab-painel-nome {
+      font-size: 1.15rem;
+    }
+  
+    .trab-painel-dados {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+  
+    .trab-dado-valor {
+      font-size: 0.82rem;
+    }
+  }

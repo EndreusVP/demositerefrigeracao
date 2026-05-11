@@ -1,3 +1,8 @@
+// js/responsivo/touch.js
+// comportamentos exclusivos de dispositivos touch
+// a inicialização dos fios (interativa ou visual) é feita em sobre.js
+// deve ser carregado APÓS todos os outros scripts
+
 // ── detecção de dispositivo ────────────────────────────────────────────────
 
 // true se for touch device (mobile ou tablet)
@@ -14,63 +19,37 @@ const isMobile = window.matchMedia('(max-width: 767px)').matches;
 const isTablet = window.matchMedia('(min-width: 768px) and (max-width: 1023px)').matches;
 
 
-// ── fios da seção sobre ────────────────────────────────────────────────────
-// em qualquer dispositivo touch: desativa interação completamente
-
-if (isTouchDevice) {
-  const canvasSobre = document.getElementById('sobre-canvas');
-
-  if (canvasSobre) {
-    // remove pointer-events — cursor não afeta os fios
-    canvasSobre.style.pointerEvents = 'none';
-    canvasSobre.style.cursor        = 'default';
-
-    // substitui o canvas por versão apenas visual
-    // FiosSobre.destroy() libera os listeners de mouse/click
-    // e recria os fios sem nenhuma interação
-    if (typeof FiosSobre !== 'undefined') {
-      FiosSobre.destroy();
-      FiosSobre.initSomenteLeitura(canvasSobre);
-    }
-  }
-}
-
-
 // ── cards de serviço ───────────────────────────────────────────────────────
-// no touch: hover css não funciona bem — ativa flip por toque
+// no touch: hover css não funciona — ativa flip por toque na classe .flipped
 
 if (isTouchDevice) {
-  document.addEventListener('DOMContentLoaded', () => {
-    // aguarda os cards serem renderizados pelo servicos.js
-    setTimeout(() => {
-      const cards = document.querySelectorAll('.card-wrap');
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.card-wrap');
 
-      cards.forEach(card => {
-        card.addEventListener('touchstart', () => {
-          // toggle da classe — toque ativa/desativa o flip
-          card.classList.toggle('flipped');
-        }, { passive: true });
-      });
-    }, 500);
-  });
+    cards.forEach(card => {
+      card.addEventListener('touchstart', () => {
+        card.classList.toggle('flipped');
+      }, { passive: true });
+    });
+  }, 500);
 }
 
 
 // ── flocos decorativos ─────────────────────────────────────────────────────
-// mobile: reduz quantidade de flocos para economizar performance
+// mobile: reduz opacidade dos flocos para economizar performance visual
 
 if (isMobile) {
-  // sobrescreve a opção de quantidade ao chamar initFlocos
-  // como initFlocos já foi chamado, apenas limita via CSS opacity
-  const canvasFlocos = document.querySelectorAll('#servicos-flocos canvas');
-  canvasFlocos.forEach(c => {
-    c.style.opacity = '0.06'; // ainda mais sutil no mobile
-  });
+  setTimeout(() => {
+    const canvasFlocos = document.querySelectorAll('#servicos-flocos canvas');
+    canvasFlocos.forEach(c => {
+      c.style.opacity = '0.06';
+    });
+  }, 500);
 }
 
 
 // ── ajuste de viewport height ──────────────────────────────────────────────
-// corrige o problema de 100vh em mobile (barra do browser)
+// corrige o problema de 100vh em mobile (barra do browser que some/aparece)
 
 function setVh() {
   const vh = window.innerHeight * 0.01;
@@ -80,4 +59,4 @@ function setVh() {
 setVh();
 window.addEventListener('resize', setVh);
 
-// uso: no css, troque min-height: 100vh por min-height: calc(var(--vh, 1vh) * 100)
+// uso no css: min-height: calc(var(--vh, 1vh) * 100)

@@ -21,13 +21,16 @@
   <link rel="stylesheet" href="livro/sections/servicos.css">
   <link rel="stylesheet" href="css/sections/sobre.css">
   <link rel="stylesheet" href="css/sections/numeros.css">
+  <link rel="stylesheet" href="css/sections/trabalhos.css">
 
   <!-- responsividade -->
   <link rel="stylesheet" href="css/responsivo/breakpoints.css">
   <link rel="stylesheet" href="css/responsivo/header.css">
   <link rel="stylesheet" href="css/responsivo/servicos.css">
   <link rel="stylesheet" href="css/responsivo/sobre.css">
+  <link rel="stylesheet" href="css/responsivo/trabalhos.css">
 
+  <link rel="stylesheet" href="css/sections/trabalhos-stage.css">
 </head>
 <body>
 
@@ -48,8 +51,8 @@
     <ul class="nav-links">
       <li><a href="#servicos">Serviços</a></li>
       <li><a href="#sobre">Sobre</a></li>
-      <li><a href="#">Soluções</a></li>
-      <li><a href="#">Projetos</a></li>
+      <li><a href="#trabalhos">Trabalhos</a></li>
+      <li><a href="#numeros">Números</a></li>
       <li><a href="#">Contato</a></li>
     </ul>
 
@@ -144,6 +147,14 @@
   </section>
 </div>
 
+<!-- ─── trabalhos ─────────────────────────────────────────────────────────── -->
+<div class="section-wrap">
+  <section id="trabalhos" class="section-base">
+    <div class="section-accent-top"></div>
+    <!-- conteúdo gerado inteiramente por trabalhos.js -->
+  </section>
+</div>
+
 <!-- ─── números ───────────────────────────────────────────────────────────── -->
 <div class="section-wrap">
   <section id="numeros" class="section-base">
@@ -154,7 +165,6 @@
 
 
 <!-- ── scripts ────────────────────────────────────────────────────────────── -->
-<!-- Three.js — usado pelo header e pela seção sobre -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <!-- header -->
@@ -171,7 +181,12 @@
 <script src="js/global/sections/sobre/fios.js"></script>
 <script src="js/global/sections/sobre/sobre.js"></script>
 
-<!-- números: geladeira interativa — não depende de Three.js -->
+<!-- trabalhos -->
+<script src="js/global/sections/trabalhos/trabalhos-data.js"></script>
+<script src="js/global/sections/trabalhos/trabalhos-placas.js"></script>
+<script src="js/global/sections/trabalhos/trabalhos.js"></script>
+
+<!-- números -->
 <script src="js/global/numeros/numeros.js"></script>
 
 <!-- responsivo -->
