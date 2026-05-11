@@ -1,239 +1,259 @@
 // js/global/numeros/numeros.js
-// Seção de números — geladeira expositora 3D com displays digitais internos
-// Os cards HTML dos números são sobrepostos via CSS 3D transform sobre o canvas
-// Sem dependências externas além de freezer.js (Three.js)
+// Seção de números — geladeira expositora interativa em CSS/HTML puro
+// Porta fechada → clique → abre com fumaça de gelo → revela odômetros
+// Não depende de Three.js
 
-// ── dados ──────────────────────────────────────────────────────────────────
-const NUMEROS_DATA = [
-  {
-    icone:  'fa-solid fa-snowflake',
-    valor:  '1200',
-    sufixo: '+',
-    nome:   'Projetos entregues',
-    desc:   'instalações concluídas',
-  },
-  {
-    icone:  'fa-solid fa-star',
-    valor:  '98',
-    sufixo: '%',
-    nome:   'Satisfação',
-    desc:   'dos clientes',
-  },
-  {
-    icone:  'fa-solid fa-calendar-check',
-    valor:  '15',
-    sufixo: '+',
-    nome:   'Anos',
-    desc:   'de experiência',
-  },
-  {
-    icone:  'fa-solid fa-headset',
-    valor:  '24',
-    sufixo: 'h',
-    nome:   'Suporte',
-    desc:   'técnico ativo',
-  },
-];
+(function () {
 
-// ── renderiza a seção ──────────────────────────────────────────────────────
-function renderNumeros() {
-  const secao = document.getElementById('numeros');
-  if (!secao) return;
+  // ── dados ────────────────────────────────────────────────────────────────
+  const DADOS = [
+    { val: '1200', suf: '+', lbl: 'Projetos entregues' },
+    { val: '98',   suf: '%', lbl: 'Satisfação'         },
+    { val: '15',   suf: '+', lbl: 'Anos de exp.'       },
+    { val: '24',   suf: 'h', lbl: 'Suporte técnico'    },
+  ];
 
-  // limpa conteúdo gerado anteriormente
-  secao.innerHTML = '';
+  // ── renderiza toda a seção ───────────────────────────────────────────────
+  function render() {
+    const secao = document.getElementById('numeros');
+    if (!secao) return;
 
-  // layout: duas colunas — esquerda (texto + displays), direita (canvas 3D)
-  secao.style.cssText += `
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 4rem;
-    padding: 6rem 4rem;
-    position: relative;
-    overflow: hidden;
-  `;
+    secao.innerHTML = `
 
-  // ── coluna esquerda ────────────────────────────────────────────────────────
-  const esquerda = document.createElement('div');
-  esquerda.className = 'numeros-esquerda';
-  esquerda.style.cssText = `
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 460px;
-    flex-shrink: 0;
-  `;
+      <!-- grade SVG de fundo -->
+      <svg class="num-grid-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="num-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+            <path d="M60 0L0 0 0 60" fill="none" stroke="rgba(0,120,200,0.05)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#num-grid)"/>
+        <ellipse cx="65%" cy="50%" rx="35%" ry="45%" fill="rgba(0,80,180,0.07)"/>
+      </svg>
 
-  // cabeçalho
-  const header = document.createElement('div');
-  header.innerHTML = `
-    <span class="numeros-label">Em números</span>
-    <h2 class="numeros-titulo">Nossa <span>trajetória</span></h2>
-    <p class="numeros-subtexto">Resultados que provam nossa excelência em refrigeração industrial.</p>
-  `;
-  esquerda.appendChild(header);
+      <!-- coluna esquerda: copy -->
+      <div class="num-copy">
+        <span class="numeros-label">Em números</span>
+        <h2 class="numeros-titulo">Nossa <span>trajetória</span></h2>
+        <p class="num-sub">Resultados que comprovam nossa excelência em refrigeração industrial.</p>
+        <div class="num-hint" id="num-hint">
+          <span class="num-hint-dot"></span>
+          Clique na porta para revelar
+        </div>
+      </div>
 
-  // grid 2×2
-  const grid = document.createElement('div');
-  grid.className = 'numeros-grid';
+      <!-- geladeira -->
+      <div class="num-fridge" id="num-fridge" title="Clique para abrir">
 
-  NUMEROS_DATA.forEach(dado => {
-    const item = _criarItem(dado);
-    grid.appendChild(item);
-  });
+        <!-- corpo permanente -->
+        <div class="num-fridge-body"></div>
 
-  esquerda.appendChild(grid);
-  secao.appendChild(esquerda);
+        <!-- interior: revelado após abertura -->
+        <div class="num-fridge-interior" id="num-interior">
+          <div class="num-led num-led-top"></div>
+          <div class="num-led num-led-bot"></div>
+          <div class="num-shelves" id="num-shelves">
+            ${DADOS.map((d, i) => `
+              <div class="num-shelf" data-val="${d.val}" data-suf="${d.suf}" data-lbl="${d.lbl}" data-idx="${i}"></div>
+            `).join('')}
+          </div>
+        </div>
 
-  // ── coluna direita: canvas 3D ──────────────────────────────────────────────
-  const direita = document.createElement('div');
-  direita.className = 'numeros-direita';
-  direita.style.cssText = `
-    position: relative;
-    z-index: 2;
-    flex-shrink: 0;
-  `;
+        <!-- porta (pivô à esquerda) -->
+        <div class="num-door" id="num-door">
+          <div class="num-door-face">
+            <div class="num-door-glare"></div>
+            <div class="num-door-glass">
+              <div class="num-door-glass-shine"></div>
+            </div>
+            <div class="num-door-brand">REFRIGERA · SIM</div>
+            <div class="num-door-handle"></div>
+          </div>
+        </div>
 
-  const canvas = document.createElement('canvas');
-  canvas.id = 'expositor-canvas';
-  canvas.style.cssText = `
-    width: 380px;
-    height: 500px;
-    display: block;
-    filter: drop-shadow(0 24px 64px rgba(0, 60, 180, 0.35));
-  `;
-  direita.appendChild(canvas);
+        <!-- acabamentos -->
+        <div class="num-fridge-top"></div>
+        <div class="num-fridge-foot num-foot-l"></div>
+        <div class="num-fridge-foot num-foot-r"></div>
 
-  // label decorativo abaixo do canvas
-  const labelCanvas = document.createElement('div');
-  labelCanvas.style.cssText = `
-    text-align: center;
-    margin-top: 0.8rem;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(0, 195, 255, 0.35);
-  `;
-  labelCanvas.textContent = 'Expositor · Linha Premium';
-  direita.appendChild(labelCanvas);
+        <!-- partículas de fumaça -->
+        <div class="num-smoke-wrap" id="num-smoke"></div>
 
-  secao.appendChild(direita);
+      </div>
+    `;
 
-  // ── inicia o modelo 3D após o canvas estar no DOM ─────────────────────────
-  requestAnimationFrame(() => {
-    if (typeof ExpositorModel !== 'undefined') {
-      ExpositorModel.init(canvas);
-    }
-  });
-
-  // ── IntersectionObserver para os odômetros ────────────────────────────────
-  _observarNumeros();
-}
-
-// ── cria um item do odômetro ───────────────────────────────────────────────
-function _criarItem(dado) {
-  const item = document.createElement('div');
-  item.className = 'numero-item';
-
-  // topo: ícone
-  const topo = document.createElement('div');
-  topo.className = 'numero-topo';
-
-  const icone = document.createElement('span');
-  icone.className = 'numero-icone';
-  icone.innerHTML = `<i class="${dado.icone}"></i>`;
-  topo.appendChild(icone);
-
-  item.appendChild(topo);
-
-  // odômetro
-  const wrap = document.createElement('div');
-  wrap.className = 'odometro-wrap';
-
-  const colunas = [];
-  dado.valor.split('').forEach(d => {
-    const col = document.createElement('div');
-    col.className = 'digito-col';
-
-    const faixa = document.createElement('div');
-    faixa.className = 'digito-faixa';
-
-    for (let n = 0; n <= 9; n++) {
-      const dig = document.createElement('div');
-      dig.className = 'digito';
-      dig.textContent = n;
-      faixa.appendChild(dig);
-    }
-
-    col.appendChild(faixa);
-    wrap.appendChild(col);
-    colunas.push({ faixa, alvo: parseInt(d, 10) });
-  });
-
-  // sufixo
-  if (dado.sufixo) {
-    const fixo = document.createElement('div');
-    fixo.className = 'digito-fixo';
-    fixo.textContent = dado.sufixo;
-    wrap.appendChild(fixo);
+    _buildShelves();
+    document.getElementById('num-fridge').addEventListener('click', _openFridge);
   }
 
-  item.appendChild(wrap);
+  // ── monta odômetros em cada prateleira ───────────────────────────────────
+  function _buildShelves() {
+    document.querySelectorAll('.num-shelf').forEach((shelf, i) => {
+      const val    = shelf.dataset.val;
+      const suf    = shelf.dataset.suf;
+      const lbl    = shelf.dataset.lbl;
+      const isLast = i === DADOS.length - 1;
 
-  // nome + desc
-  const nome = document.createElement('p');
-  nome.className = 'numero-nome';
-  nome.textContent = dado.nome;
-  item.appendChild(nome);
+      const row = document.createElement('div');
+      row.className = 'num-odo-row';
 
-  const desc = document.createElement('p');
-  desc.className = 'numero-desc';
-  desc.textContent = dado.desc;
-  item.appendChild(desc);
+      val.split('').forEach(d => {
+        const col   = document.createElement('div');
+        col.className = 'num-odo-col';
 
-  item._colunas = colunas;
-  item._animado = false;
+        const strip = document.createElement('div');
+        strip.className = 'num-odo-strip';
+        strip.dataset.target = d;
 
-  return item;
-}
-
-// ── anima os dígitos rolando ────────────────────────────────────────────────
-function _animarItem(item) {
-  if (item._animado) return;
-  item._animado = true;
-
-  item._colunas.forEach((col, idx) => {
-    setTimeout(() => {
-      const alt = window.innerWidth <= 767 ? 30 : 36;
-      col.faixa.style.transform = `translateY(${-(col.alvo * alt)}px)`;
-    }, idx * 90);
-  });
-}
-
-// ── observer ───────────────────────────────────────────────────────────────
-function _observarNumeros() {
-  // aguarda render
-  setTimeout(() => {
-    const itens = document.querySelectorAll('.numero-item');
-    if (!itens.length) return;
-
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          setTimeout(() => _animarItem(e.target), 250);
-          obs.unobserve(e.target);
+        for (let n = 0; n <= 9; n++) {
+          const dig = document.createElement('div');
+          dig.className = 'num-odo-dig';
+          dig.textContent = n;
+          strip.appendChild(dig);
         }
+        col.appendChild(strip);
+        row.appendChild(col);
       });
-    }, { threshold: 0.3 });
 
-    itens.forEach(i => obs.observe(i));
-  }, 100);
-}
+      const sfxEl = document.createElement('div');
+      sfxEl.className = 'num-odo-suf';
+      sfxEl.textContent = suf;
+      row.appendChild(sfxEl);
 
-// ── bootstrap ──────────────────────────────────────────────────────────────
-renderNumeros();
+      const lblEl = document.createElement('div');
+      lblEl.className = 'num-shelf-lbl';
+      lblEl.textContent = lbl;
+
+      shelf.appendChild(row);
+      shelf.appendChild(lblEl);
+
+      if (!isLast) {
+        const div = document.createElement('div');
+        div.className = 'num-shelf-div';
+        shelf.appendChild(div);
+      }
+    });
+  }
+
+  // ── rola os dígitos ──────────────────────────────────────────────────────
+  function _rollDigits() {
+    document.querySelectorAll('.num-odo-strip').forEach(strip => {
+      const t = parseInt(strip.dataset.target, 10);
+      strip.style.transform = `translateY(${-(t * 22)}px)`;
+    });
+  }
+
+  // ── fumaça de gelo ───────────────────────────────────────────────────────
+  function _spawnSmoke(count, delayBase) {
+    const wrap = document.getElementById('num-smoke');
+    if (!wrap) return;
+
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const p    = document.createElement('div');
+        const size = 22 + Math.random() * 34;
+        const sx   = 10 + Math.random() * 80;
+        const sy   = 15 + Math.random() * 70;
+        const dx   = (-80  + Math.random() * 160).toFixed(1) + 'px';
+        const dy   = (-100 - Math.random() * 120).toFixed(1) + 'px';
+        const dur  = (0.8  + Math.random() * 0.9).toFixed(2) + 's';
+
+        p.className = 'num-smoke-p';
+        p.style.cssText = `
+          left:${sx}%; top:${sy}%;
+          width:${size}px; height:${size}px;
+          --dx:${dx}; --dy:${dy};
+          animation-duration:${dur};
+        `;
+        wrap.appendChild(p);
+        setTimeout(() => p.remove(), 2400);
+      }, i * 55 + delayBase);
+    }
+  }
+
+  // ── toggle abre / fecha ───────────────────────────────────────────────────
+  let _opened  = false;
+  let _busy    = false; // impede cliques durante a animação
+
+  function _openFridge() {
+    if (_busy) return;
+    _busy = true;
+
+    const door     = document.getElementById('num-door');
+    const interior = document.getElementById('num-interior');
+    const shelves  = document.getElementById('num-shelves');
+    const hint     = document.getElementById('num-hint');
+
+    if (!_opened) {
+      // ── ABRE ──────────────────────────────────────────────────────────────
+      _opened = true;
+
+      if (hint) { hint.style.opacity = '0'; hint.style.pointerEvents = 'none'; }
+
+      if (door) door.classList.add('num-door--open');
+
+      // fumaça em três ondas
+      _spawnSmoke(20,  280);
+      _spawnSmoke(16,  680);
+      _spawnSmoke(12, 1100);
+
+      if (interior) interior.classList.add('num-interior--visible');
+      if (shelves)  shelves.classList.add('num-shelves--visible');
+
+      document.querySelectorAll('.num-shelf').forEach((shelf, i) => {
+        setTimeout(() => shelf.classList.add('num-shelf--visible'), 850 + i * 160);
+      });
+
+      setTimeout(_rollDigits, 1100);
+
+      // libera após a animação de abertura terminar
+      setTimeout(() => { _busy = false; }, 1400);
+
+    } else {
+      // ── FECHA ─────────────────────────────────────────────────────────────
+      _opened = false;
+
+      // some prateleiras
+      document.querySelectorAll('.num-shelf').forEach(shelf => {
+        shelf.classList.remove('num-shelf--visible');
+      });
+
+      // some interior com pequeno delay
+      setTimeout(() => {
+        if (shelves)  shelves.classList.remove('num-shelves--visible');
+        if (interior) interior.classList.remove('num-interior--visible');
+      }, 200);
+
+      // fecha a porta
+      if (door) door.classList.remove('num-door--open');
+
+      // reexibe hint
+      setTimeout(() => {
+        if (hint) { hint.style.opacity = '1'; hint.style.pointerEvents = ''; }
+      }, 800);
+
+      // reseta os dígitos de volta ao 0
+      setTimeout(() => {
+        document.querySelectorAll('.num-odo-strip').forEach(strip => {
+          strip.style.transition = 'none';
+          strip.style.transform  = 'translateY(0)';
+          // reativa a transição no próximo frame
+          requestAnimationFrame(() => {
+            strip.style.transition = '';
+          });
+        });
+      }, 600);
+
+      // libera após a animação de fechamento terminar
+      setTimeout(() => { _busy = false; }, 1400);
+    }
+  }
+
+  // ── bootstrap ────────────────────────────────────────────────────────────
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render);
+  } else {
+    render();
+  }
+
+})();

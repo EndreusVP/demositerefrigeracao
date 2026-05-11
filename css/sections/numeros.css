@@ -1,6 +1,28 @@
 /* css/sections/numeros.css */
-/* seção de números — expositor 3D + painel de odômetros */
+/* Seção de números — geladeira expositora CSS interativa */
 
+/* ── keyframes ────────────────────────────────────────────────────────────── */
+@keyframes num-smoke {
+  0%   { transform: translate(0, 0) scale(0.5); opacity: 0.75; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(2.8); opacity: 0; }
+}
+
+@keyframes num-led-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+@keyframes num-hint-shimmer {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 1; }
+}
+
+@keyframes num-float-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── seção ────────────────────────────────────────────────────────────────── */
 #numeros {
   position: relative;
   width: 100%;
@@ -9,59 +31,41 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 4rem;
+  gap: 5rem;
   padding: 6rem 4rem;
   overflow: hidden;
-  background: linear-gradient(
-    to bottom,
-    #020b18 0%,
-    #041428 40%,
-    #061d3a 70%,
-    #071f42 100%
-  );
+  background: linear-gradient(160deg, #020b18 0%, #041428 45%, #061d3a 75%, #071f42 100%);
 }
 
-/* grade técnica de fundo */
-#numeros::before {
-  content: '';
+/* grade SVG de fundo */
+.num-grid-svg {
   position: absolute;
   inset: 0;
-  background-image:
-    repeating-linear-gradient(to bottom, transparent, transparent 59px, rgba(0,120,200,0.03) 60px),
-    repeating-linear-gradient(to right,  transparent, transparent 59px, rgba(0,120,200,0.03) 60px);
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 0;
 }
 
-#numeros::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 65% 50%, rgba(0,80,180,0.10) 0%, transparent 65%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── coluna esquerda ──────────────────────────────────────────────────────── */
-.numeros-esquerda {
+/* ── coluna de texto ──────────────────────────────────────────────────────── */
+.num-copy {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  max-width: 460px;
+  gap: 1.5rem;
+  max-width: 320px;
   flex-shrink: 0;
 }
 
 .numeros-label {
   display: block;
+  font-family: 'Rajdhani', sans-serif;
   font-size: 0.72rem;
+  font-weight: 600;
   letter-spacing: 0.26em;
   text-transform: uppercase;
   color: rgba(0, 195, 255, 0.6);
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
 }
 
 .numeros-titulo {
@@ -70,7 +74,6 @@
   font-weight: 700;
   color: #fff;
   line-height: 1.1;
-  margin-bottom: 0.5rem;
 }
 
 .numeros-titulo span {
@@ -80,170 +83,331 @@
   background-clip: text;
 }
 
-.numeros-subtexto {
+.num-sub {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.32);
   line-height: 1.7;
 }
 
-/* ── grid 2×2 dos odômetros ───────────────────────────────────────────────── */
-.numeros-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.numero-item {
-  background: linear-gradient(145deg, #04101f, #071828);
-  border: 1px solid rgba(0, 195, 255, 0.13);
-  border-radius: 10px;
-  padding: 1.2rem 1.3rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(0, 195, 255, 0.06);
-  transition: border-color 0.3s;
-}
-
-.numero-item:hover {
-  border-color: rgba(0, 195, 255, 0.28);
-}
-
-.numero-topo {
-  display: flex;
+/* hint piscante */
+.num-hint {
+  display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 195, 255, 0.6);
+  border: 1px solid rgba(0, 195, 255, 0.22);
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  width: fit-content;
+  animation: num-hint-shimmer 2s ease infinite;
+  transition: opacity 0.4s ease;
 }
 
-.numero-icone {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background: rgba(0, 195, 255, 0.07);
-  border: 1px solid rgba(0, 195, 255, 0.14);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #00c3ff;
-  font-size: 0.82rem;
+.num-hint-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00c3ff;
+  display: inline-block;
   flex-shrink: 0;
 }
 
+/* ── geladeira ────────────────────────────────────────────────────────────── */
+.num-fridge {
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+  width: 220px;
+  height: 440px;
+  cursor: pointer;
+}
+
+/* corpo permanente */
+.num-fridge-body {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #1e3248, #0e1e30);
+  border-radius: 12px 12px 8px 8px;
+  border: 1.5px solid rgba(0, 195, 255, 0.18);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 40px rgba(0, 60, 140, 0.2);
+}
+
+/* topo */
+.num-fridge-top {
+  position: absolute;
+  top: -7px; left: -3px; right: -3px;
+  height: 14px;
+  background: linear-gradient(to bottom, #2e4a66, #1e3248);
+  border-radius: 12px 12px 0 0;
+  border: 1.5px solid rgba(0, 195, 255, 0.15);
+}
+
+/* pés */
+.num-fridge-foot {
+  position: absolute;
+  bottom: -10px;
+  width: 20px;
+  height: 10px;
+  background: #0a1520;
+  border-radius: 0 0 4px 4px;
+}
+.num-foot-l { left: 18px; }
+.num-foot-r { right: 18px; }
+
+/* ── interior ─────────────────────────────────────────────────────────────── */
+.num-fridge-interior {
+  position: absolute;
+  top: 5px; bottom: 5px; left: 5px; right: 5px;
+  background: linear-gradient(180deg, #071828 0%, #030e1a 100%);
+  border-radius: 8px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.25s;
+}
+
+.num-fridge-interior.num-interior--visible {
+  opacity: 1;
+}
+
+/* LEDs internos */
+.num-led {
+  position: absolute;
+  left: 10px; right: 10px;
+  height: 3px;
+  background: #00c3ff;
+  border-radius: 2px;
+  box-shadow: 0 0 10px #00c3ff, 0 0 24px rgba(0, 195, 255, 0.5);
+  animation: num-led-pulse 2s ease infinite;
+}
+.num-led-top { top: 5px; }
+.num-led-bot { bottom: 5px; animation-delay: 0.4s; }
+
+/* ── prateleiras ──────────────────────────────────────────────────────────── */
+.num-shelves {
+  position: absolute;
+  inset: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.65s;
+}
+
+.num-shelves.num-shelves--visible {
+  opacity: 1;
+}
+
+.num-shelf {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 4px 0;
+  opacity: 0;
+  transition: opacity 0s;
+}
+
+.num-shelf.num-shelf--visible {
+  opacity: 1;
+  transition: opacity 0.45s ease;
+  animation: num-float-in 0.45s ease both;
+}
+
+/* divisor entre prateleiras */
+.num-shelf-div {
+  width: 85%;
+  height: 1px;
+  background: rgba(0, 195, 255, 0.12);
+  margin-top: 3px;
+}
+
+/* label da prateleira */
+.num-shelf-lbl {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+}
+
 /* ── odômetro ─────────────────────────────────────────────────────────────── */
-.odometro-wrap {
+.num-odo-row {
   display: flex;
   align-items: flex-end;
   gap: 1px;
+}
+
+.num-odo-col {
+  width: 16px;
+  height: 22px;
   overflow: hidden;
   position: relative;
-  height: 36px;
 }
 
-.odometro-wrap::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(4, 16, 31, 0.88) 0%,
-    transparent 28%,
-    transparent 72%,
-    rgba(4, 16, 31, 0.88) 100%
-  );
-  pointer-events: none;
-  z-index: 2;
-}
-
-.digito-col {
-  width: 20px;
-  height: 36px;
-  overflow: hidden;
-}
-
-.digito-faixa {
+.num-odo-strip {
   display: flex;
   flex-direction: column;
-  transition: transform 1.4s cubic-bezier(0.22, 0.68, 0.32, 1.0);
+  transition: transform 1.3s cubic-bezier(0.22, 0.68, 0.32, 1.0);
   will-change: transform;
 }
 
-.digito {
-  width: 20px;
-  height: 36px;
+.num-odo-dig {
+  width: 16px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Orbitron', monospace;
-  font-size: 1.45rem;
+  font-size: 0.88rem;
   font-weight: 900;
   color: #fff;
   flex-shrink: 0;
 }
 
-.digito-fixo {
+.num-odo-suf {
   font-family: 'Orbitron', monospace;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #00c3ff;
-  position: relative;
-  z-index: 3;
-  padding-bottom: 3px;
-  align-self: flex-end;
+  padding-bottom: 2px;
+  margin-left: 1px;
 }
 
-.numero-nome {
+/* ── porta ────────────────────────────────────────────────────────────────── */
+.num-door {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform-origin: left center;
+  transform: perspective(700px) rotateY(0deg);
+  transition: transform 1.2s cubic-bezier(0.4, 0.2, 0.2, 1);
+  will-change: transform;
+  z-index: 5;
+}
+
+.num-door.num-door--open {
+  transform: perspective(700px) rotateY(-108deg);
+}
+
+.num-door-face {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #243d54, #152535);
+  border-radius: 12px 12px 8px 8px;
+  border: 1.5px solid rgba(0, 195, 255, 0.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    2px 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+/* reflexo diagonal */
+.num-door-glare {
+  position: absolute;
+  top: -30%; left: -10%;
+  width: 60%; height: 140%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.04), transparent);
+  transform: skewX(-15deg);
+  pointer-events: none;
+}
+
+/* vidro */
+.num-door-glass {
+  position: absolute;
+  top: 8%; left: 10%; right: 10%; height: 72%;
+  background: rgba(0, 195, 255, 0.03);
+  border: 1px solid rgba(0, 195, 255, 0.13);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.num-door-glass-shine {
+  position: absolute;
+  top: 5%; left: 5%;
+  width: 30%; height: 90%;
+  background: linear-gradient(to right, rgba(255,255,255,0.04), transparent);
+  border-radius: 3px;
+}
+
+/* marca na porta */
+.num-door-brand {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: 'Orbitron', monospace;
-  font-size: 0.66rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.65);
-  letter-spacing: 0.04em;
-  line-height: 1.2;
+  font-size: 0.42rem;
+  letter-spacing: 0.22em;
+  color: rgba(0, 195, 255, 0.22);
+  white-space: nowrap;
 }
 
-.numero-desc {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 0.80rem;
-  color: rgba(255, 255, 255, 0.28);
-  line-height: 1.4;
+/* puxador */
+.num-door-handle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 90px;
+  background: linear-gradient(to right, #2a3d50, #3a5068);
+  border-radius: 5px;
+  border: 1px solid rgba(0, 195, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* ── coluna direita: canvas do expositor ──────────────────────────────────── */
-.numeros-direita {
-  position: relative;
-  z-index: 2;
-  flex-shrink: 0;
+/* ── fumaça ───────────────────────────────────────────────────────────────── */
+.num-smoke-wrap {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 20;
+  overflow: visible;
 }
 
-#expositor-canvas {
-  width: 380px;
-  height: 500px;
-  display: block;
-  filter: drop-shadow(0 24px 64px rgba(0, 60, 180, 0.35));
+.num-smoke-p {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(180, 230, 255, 0.65) 0%,
+    rgba(100, 180, 255, 0.15) 50%,
+    transparent 70%
+  );
+  animation: num-smoke 1s ease-out forwards;
+  pointer-events: none;
+  filter: blur(5px);
 }
 
-/* ── responsivo ──────────────────────────────────────────────────────────── */
+/* ── responsivo ───────────────────────────────────────────────────────────── */
 @media (max-width: 1023px) {
   #numeros {
     flex-direction: column;
     padding: 5rem 2rem;
-    gap: 3rem;
+    gap: 3.5rem;
   }
 
-  .numeros-esquerda {
+  .num-copy {
     max-width: 100%;
-    width: 100%;
+    align-items: center;
+    text-align: center;
   }
 
-  .numeros-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  #expositor-canvas {
-    width: 300px;
-    height: 390px;
+  .num-hint {
+    align-self: center;
   }
 }
 
@@ -253,36 +417,23 @@
     gap: 2.5rem;
   }
 
-  .numeros-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
+  .num-fridge {
+    width: 180px;
+    height: 360px;
   }
 
-  .numero-item {
-    padding: 1rem;
+  .num-odo-dig {
+    font-size: 0.75rem;
+    width: 13px;
+    height: 18px;
   }
 
-  .digito {
-    font-size: 1.1rem;
-    width: 16px;
-    height: 30px;
+  .num-odo-col {
+    width: 13px;
+    height: 18px;
   }
 
-  .digito-col {
-    width: 16px;
-    height: 30px;
-  }
-
-  .odometro-wrap {
-    height: 30px;
-  }
-
-  .digito-fixo {
-    font-size: 0.82rem;
-  }
-
-  #expositor-canvas {
-    width: 260px;
-    height: 340px;
+  .num-odo-strip {
+    transition: none; /* rola instantâneo no mobile */
   }
 }

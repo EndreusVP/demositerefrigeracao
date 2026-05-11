@@ -11,30 +11,29 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+  <!-- estilos globais e header -->
   <link rel="stylesheet" href="css/header/main.css">
   <link rel="stylesheet" href="css/header/navbar.css">
   <link rel="stylesheet" href="css/header/hero.css">
   <link rel="stylesheet" href="css/global/sections.css">
+
+  <!-- estilos das seções -->
   <link rel="stylesheet" href="livro/sections/servicos.css">
   <link rel="stylesheet" href="css/sections/sobre.css">
   <link rel="stylesheet" href="css/sections/numeros.css">
 
-  <!-- responsividade-->
+  <!-- responsividade -->
   <link rel="stylesheet" href="css/responsivo/breakpoints.css">
   <link rel="stylesheet" href="css/responsivo/header.css">
   <link rel="stylesheet" href="css/responsivo/servicos.css">
   <link rel="stylesheet" href="css/responsivo/sobre.css">
-  <link rel="stylesheet" href="css/responsivo/numeros.css">
 
 </head>
 <body>
 
 <header>
 
-  <!-- canvas onde o Three.js renderiza -->
   <canvas id="canvas-bg"></canvas>
-
-  <!-- overlay de névoa azul (puro CSS) -->
   <div class="frost-overlay"></div>
 
   <!-- navbar -->
@@ -56,7 +55,6 @@
 
     <button class="nav-cta">Solicitar Orçamento</button>
   </nav>
-  <!-- /navbar -->
 
   <!-- hero -->
   <section class="hero">
@@ -101,7 +99,6 @@
     </div>
 
   </section>
-  <!-- /hero -->
 
   <div class="scroll-indicator">
     <div class="scroll-line"></div>
@@ -111,7 +108,7 @@
 </header>
 
 
-<!-- ─── seção: serviços ─────────────────────────────────────── -->
+<!-- ─── serviços ──────────────────────────────────────────────────────────── -->
 <div class="section-wrap">
   <section id="servicos" class="section-base">
     <div class="section-accent-top"></div>
@@ -124,7 +121,7 @@
   </section>
 </div>
 
-<!-- ─── seção: sobre ────────────────────────────────────────── -->
+<!-- ─── sobre ─────────────────────────────────────────────────────────────── -->
 <div class="section-wrap">
   <section id="sobre">
     <div class="sobre-shadow-top"></div>
@@ -147,26 +144,37 @@
   </section>
 </div>
 
-<!-- ─── seção: números ──────────────────────────────────────── -->
+<!-- ─── números ───────────────────────────────────────────────────────────── -->
 <div class="section-wrap">
   <section id="numeros" class="section-base">
     <div class="section-accent-top"></div>
-    <!-- conteúdo gerado pelo numeros.js -->
+    <!-- conteúdo gerado inteiramente por numeros.js -->
   </section>
 </div>
 
-<!-- ── scripts ─────────────────────────────────────────────── -->
+
+<!-- ── scripts ────────────────────────────────────────────────────────────── -->
+<!-- Three.js — usado pelo header e pela seção sobre -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- header -->
 <script src="js/header/intro.js"></script>
 <script src="js/header/particulas.js"></script>
 <script src="js/header/cristais.js"></script>
 <script src="js/header/hero-background.js"></script>
+
+<!-- global -->
 <script src="js/global/flocos-decorativos.js"></script>
+
+<!-- seções -->
 <script src="js/global/sections/servicos.js"></script>
 <script src="js/global/sections/sobre/fios.js"></script>
 <script src="js/global/sections/sobre/sobre.js"></script>
+
+<!-- números: geladeira interativa — não depende de Three.js -->
 <script src="js/global/numeros/numeros.js"></script>
-<script src="js/global/numeros/freezer.js"></script>
+
+<!-- responsivo -->
 <script src="js/responsivo/touch.js"></script>
 
 </body>
